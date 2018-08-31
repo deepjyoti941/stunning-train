@@ -1,0 +1,33 @@
+.app {
+  display: flex;
+  background:lightgray;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  .search-input {
+    padding: 10px 20px 10px 20px;
+    border: 1px solid #d7d7d7;
+    margin: 0px;
+    border-radius: 25px;
+    outline: none;
+  }
+
+  .capture-plus-list-results {
+    border: 1px solid #da9898;
+    width: 200px;
+    position: absolute;
+    margin-top: 25px;
+    background: antiquewhite;
+  }
+
+  .address-results {
+    border: 1px solid #d7d7d7;
+    margin-top: 20px;
+    padding: 10px;
+    text-align: left;
+    height: 100px;
+    background: lightsteelblue;
+    width: 200px;
+  }
+}
