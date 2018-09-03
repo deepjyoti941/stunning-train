@@ -1,0 +1,14 @@
+@import '../../scss/themes/_colors';
+
+.address-item {
+  margin: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #d7d7d7;
+}
+
+.address-item:focus,
+.address-item:hover {
+  color: #fff;
+  background-color: red;
+  cursor: pointer;
+}
