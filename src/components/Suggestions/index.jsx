@@ -13,29 +13,28 @@ class Suggestions extends Component {
   getAddressDetails = (item) => {
     const { getAddress } = this.props;
     getAddress(item);
-  }
-
+  };
 
   render() {
     const { suggestionsList: { Items } = {} } = this.props || {};
     return (
       <React.Fragment>
-        {Items
-          ? Items.map(item => (
+        {Items ? (
+          Items.map(item => (
             <div
               key={item.Id}
               tabIndex="0"
               role="button"
               className="address-item"
               onClick={() => this.getAddressDetails(item)}
-              onKeyUp={() => { }}>
+              onKeyUp={() => {}}>
               {item.Id}
               {item.Text}
             </div>
           ))
-          : (
-            <div className="address-item">No Address Found</div>
-          )}
+        ) : (
+          <div className="address-item">No Address Found</div>
+        )}
       </React.Fragment>
     );
   }
@@ -43,6 +42,8 @@ class Suggestions extends Component {
 
 function mapStateToProps(state) {
   console.log('suggestions component mapStateToProps =>', state);
+  console.log('address =>', JSON.stringify(state.suggestions.address));
+
   const { suggestionsList } = state.suggestions;
   return { suggestionsList };
 }

@@ -53,7 +53,7 @@ class Search extends Component {
           {showSuggestions ? (
             <div className="capture-plus-list-results">
               <h3 className="result-header">
-                Found :
+Found :
                 {ContainerCount}
               </h3>
               <Suggestions results={Items} />
