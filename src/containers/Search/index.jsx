@@ -5,6 +5,8 @@ import { getSuggestions } from '../../actions';
 import { Address, Suggestions } from '../../components';
 import './search.scss';
 
+console.log('i am from Search component');
+
 class Search extends Component {
   state = {
     query: '',

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
-const commonPaths = require('./paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const commonPaths = require('./paths');
 
 module.exports = {
   entry: commonPaths.entryPath,
@@ -13,12 +13,12 @@ module.exports = {
         exclude: /(node_modules)/,
         options: {
           emitWarning: process.env.NODE_ENV !== 'production'
-        },
+        }
       },
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
-        exclude: /(node_modules)/,
+        exclude: /(node_modules)/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -26,10 +26,10 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: commonPaths.imagesFolder,
-            },
-          },
-        ],
+              outputPath: commonPaths.imagesFolder
+            }
+          }
+        ]
       },
       {
         test: /\.(woff2|ttf|woff|eot)$/,
@@ -37,20 +37,20 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: commonPaths.fontsFolder,
-            },
-          },
-        ],
-      },
-    ],
+              outputPath: commonPaths.fontsFolder
+            }
+          }
+        ]
+      }
+    ]
   },
   resolve: {
-    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx']
   },
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
-      template: commonPaths.templatePath,
-    }),
-  ],
+      template: commonPaths.templatePath
+    })
+  ]
 };
