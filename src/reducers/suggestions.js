@@ -6,16 +6,17 @@ import {
 } from '../actions/types';
 
 export default function (state = [], action) {
+  console.log(action);
   switch (action.type) {
-    case GET_SUGGESTIONS_SUCCESS:
-      return { ...state, suggestionsList: action.payload };
-    case GET_SUGGESTIONS_FAIL:
-      return { ...state, error: 'Api error' };
-    case GET_ADDRESS_SUCCESS:
-      return { ...state, address: action.payload };
-    case GET_ADDRESS_FAIL:
-      return { ...state, error: 'Api error' };
-    default:
-      return state;
+  case GET_SUGGESTIONS_SUCCESS:
+    return { ...state, suggestionsList: action.payload.data };
+  case GET_SUGGESTIONS_FAIL:
+    return { ...state, error: 'Api error' };
+  case GET_ADDRESS_SUCCESS:
+    return { ...state, address: action.payload };
+  case GET_ADDRESS_FAIL:
+    return { ...state, error: 'Api error' };
+  default:
+    return state;
   }
 }

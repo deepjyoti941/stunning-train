@@ -1,5 +1,6 @@
 import PostCode from '../services/Postcode';
 import {
+  GET_SUGGESTIONS,
   GET_SUGGESTIONS_SUCCESS,
   GET_SUGGESTIONS_FAIL,
   GET_ADDRESS_SUCCESS,
@@ -32,11 +33,24 @@ const getAddressFail = dispatch => dispatch({
   type: GET_ADDRESS_FAIL
 });
 
-export const getSuggestions = query => dispatch => PostCode.getAddress(query)
-  .then(({ data }) => {
-    suggestionsListSuccess(dispatch, data);
-  })
-  .catch(error => suggestionsListFail(dispatch, error));
+// export const getSuggestions = query => PostCode.getAddress(query)
+//   .then(({ data }) => {
+//     console.log('data=>>', data);
+//     return {
+//       type: GET_SUGGESTIONS_SUCCESS,
+//       payload: data
+//     };
+//   })
+//   .catch(error => suggestionsListFail(dispatch, error));
+export const getSuggestionList = response => ({
+  type: GET_SUGGESTIONS_SUCCESS,
+  payload: response
+});
+
+export const getSuggestions = query => ({
+  type: GET_SUGGESTIONS,
+  payload: query
+});
 
 export const getAddress = item => dispatch => PostCode.setAddress(item.Id)
   .then((response) => {
