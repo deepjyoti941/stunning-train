@@ -2,15 +2,79 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSuggestions } from '../../actions';
-import { Address, Suggestions } from '../../components';
+import { Address, Suggestions, MapView } from '../../components';
 import './search.scss';
 
 console.log('i am from Search component');
-
+const initiaLocations = [
+  {
+    latitude: 19.256292770833003,
+    longitude: 73.14348888416284,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.158723714016585,
+    longitude: 72.85000981925405,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.06555758005571,
+    longitude: 73.12917816471031,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.419837116515474,
+    longitude: 73.16990883470437,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.060568068582878,
+    longitude: 72.79079653150914,
+    altitude: 0,
+    altitudeReference: -1
+  }
+];
+const newLocations = [
+  {
+    latitude: 19.327158850763844,
+    longitude: 72.84716298553404,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 18.964912112287983,
+    longitude: 72.99827038558304,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.1868959090133,
+    longitude: 72.87961268001087,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.377432936895655,
+    longitude: 73.07558350297288,
+    altitude: 0,
+    altitudeReference: -1
+  },
+  {
+    latitude: 19.28075150539127,
+    longitude: 73.16270970833585,
+    altitude: 0,
+    altitudeReference: -1
+  }
+];
 class Search extends Component {
   state = {
     query: '',
-    showSuggestions: true
+    showSuggestions: true,
+    initiaLocations
   };
 
   getInfo = () => {
@@ -18,6 +82,10 @@ class Search extends Component {
     const { query } = this.state;
     getSuggestions(query);
   };
+
+  getRandomLocations() {
+    return Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+  }
 
   handleInputChange = (e) => {
     this.setState(
@@ -61,7 +129,14 @@ Found :
               <Suggestions results={Items} />
             </div>
           ) : null}
+
           <Address address={formattedAddress || null} />
+          <button
+            type="button"
+            onClick={() => this.setState({ initiaLocations: newLocations })}>
+            Get locations
+          </button>
+          <MapView locations={this.state.initiaLocations} />
         </div>
       </div>
     );

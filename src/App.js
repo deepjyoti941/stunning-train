@@ -17,6 +17,7 @@ const App = (props) => {
     </React.Fragment>
   );
 };
+
 const mapStateToProps = ({ configs }) => {
   console.log('App props =>', configs);
   const { messages } = configs;
