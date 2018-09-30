@@ -1,36 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Loadable from 'react-loadable';
 import axios from 'axios';
-import * as config from './services/configService';
 import localConfigs from './config/postcode';
-
-// import App from './App';
+import configFromApi from './config/postcodeFromServer';
+import App from './App';
 import Root from './store/Root';
-// import registerServiceWorker from './registerServiceWorker';
 
 console.log('i am from Bootstrap file');
-// console.log(LoadableComponent());
-console.log('configs =>>', config);
 
-const configFromApi = {
-  messages: {
-    title: 'POSTCODE FINDER'
-  }
-};
-
-const LoadableComponent = Loadable({
-  loader: () => import('./App'),
-  loading() {
-    return <div>Loading...</div>;
-  },
-  delay: 900
-});
-
-function renderApp() {
+function renderApp(config) {
   ReactDOM.render(
-    <Root>
-      <LoadableComponent />
+    <Root initialState={{ configs: config }}>
+      <App />
     </Root>,
     document.querySelector('#root')
   );
@@ -42,30 +23,24 @@ function setDataConfigs() {
       console.log('href =>', document.getElementById('config').href);
       axios
         .get(document.getElementById('config').href)
-        .then((response) => {
-          config.set({
-            configs: configFromApi
-          });
-          resolve(response.data);
+        .then(() => {
+          resolve(configFromApi);
         })
         .catch((error) => {
           reject(error);
           console.log(' Unable to contact front-end services ', error);
         });
     } else {
-      config.set({
-        configs: localConfigs
-      });
-      resolve('with local config data');
+      resolve(localConfigs);
     }
   });
 }
 setDataConfigs()
   .then((resp) => {
     console.log('response =>>>', resp);
-    renderApp();
+    renderApp(resp);
   })
   .catch((err) => {
     console.log(' SetDataConfigs error ', err);
-    renderApp();
+    // renderApp();
   });

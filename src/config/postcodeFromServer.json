@@ -1,6 +1,6 @@
 {
   "messages": {
-    "title": "Postcode Finder"
+    "title": "POSTCODE FINDER"
   },
   "appData": {
     "apiUrl": "https://services.postcodeanywhere.co.uk/CapturePlus/Interactive/Find/v2.00/json3ex.ws",

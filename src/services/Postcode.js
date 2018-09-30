@@ -1,21 +1,22 @@
 import axios from 'axios';
 
-const API_URL = 'https://services.postcodeanywhere.co.uk/CapturePlus/Interactive/Find/v2.00/json3ex.ws';
-const API_RESULT_URL = 'https://services.postcodeanywhere.co.uk/CapturePlus/Interactive/RetrieveFormatted/v2.00/json3ex.ws';
+class PostcodeService {
+  static getAddress(configs, searchItem) {
+    console.log('configs, searchItem =>>', configs, searchItem);
 
-const PostCode = {
-  getAddress: (searchItem) => {
-    const params = `Key=YF42-AW94-RP61-CU84&Country=GBR&SearchTerm=${searchItem}&LanguagePreference=en&LastId=&SearchFor=Everything&$block=true&$cache=true`;
-    return axios.get(`${API_URL}?${params}`);
-  },
+    const { apiUrl, key, country } = configs;
 
-  setAddress: (addressIdParam) => {
-    const params = `Key=YF42-AW94-RP61-CU84&Id=${addressIdParam}&$cache=true&$block=true&LastId=&SearchTerm=&field1format={PAFAddressKey}`;
-    return axios.get(`${API_RESULT_URL}?${params}`);
-  },
+    const params = `Key=${key}&Country=${country}&SearchTerm=${searchItem}&LanguagePreference=en&LastId=&SearchFor=Everything&$block=true&$cache=true`;
+    return axios.get(`${apiUrl}?${params}`);
+  }
 
-  formattAddress: (addressParam) => {
-    console.log(addressParam);
+  static setAddress(configs, addressIdParam) {
+    const { apiResultUrl, key } = configs;
+    const params = `Key=${key}&Id=${addressIdParam}&$cache=true&$block=true&LastId=&SearchTerm=&field1format={PAFAddressKey}`;
+    return axios.get(`${apiResultUrl}?${params}`);
+  }
+
+  static formattAddress(addressParam) {
     const keyNamesArr = [
       'Field1',
       'BuildingName',
@@ -46,16 +47,14 @@ const PostCode = {
       }
     }
 
-    console.log(addressArr);
     // Create our formatted string and populate our model Object.
     if (addressArr.length > 0) {
       finalAddresObj.formattedAddress = addressArr.join('<br />');
     } else {
       finalAddresObj.formattedAddress = '';
     }
-    console.log(finalAddresObj);
     return finalAddresObj;
   }
-};
+}
 
-export default PostCode;
+export default PostcodeService;
