@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 
 let map;
-let infobox;
 
 export default class MapView extends Component {
+  constructor(props) {
+    super(props);
+    this.selectedPin = null;
+    this.infobox = null;
+  }
+
   componentDidMount() {
     console.log('locations =>', this.props);
     const { locations } = this.props;
@@ -13,11 +18,11 @@ export default class MapView extends Component {
     });
 
     // Assign the infobox to a map instance.
-    infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+    this.infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
       visible: false
     });
 
-    infobox.setMap(map);
+    this.infobox.setMap(map);
     this.setPushPins(locations);
   }
 
@@ -36,18 +41,76 @@ export default class MapView extends Component {
     return false;
   }
 
-  pushpinClicked(e) {
-    // Make sure the infobox has metadata to display.
-    if (e.target.metadata) {
-      // Set the infobox options with the metadata of the pushpin.
-      infobox.setOptions({
+  pushpinClicked = (e) => {
+    // console.log(this);
+    console.log(e);
+    // if (e.target == null) {
+    //   return;
+    // }
+
+    // setTimeout(()=> {
+    //   console.log('this.selectedPin=>>>', this.selectedPin);
+    // })
+
+    if (this.selectedPin == null) {
+      console.log('select pin');
+      console.log(e.target);
+      this.selectedPin = e.target;
+      this.selectedPin.setOptions({
+        color: 'red'
+      });
+      this.infobox.setOptions({
         location: e.target.getLocation(),
         title: e.target.metadata.title,
         description: e.target.metadata.description,
         visible: true
       });
+    } else if (e.target != this.selectedPin) {
+      console.log('other pin selected');
+      this.selectedPin.setOptions({
+        color: 'green'
+      });
+      e.target.setOptions({
+        color: 'red'
+      });
+      this.infobox.setOptions({
+        location: e.target.getLocation(),
+        title: e.target.metadata.title,
+        description: e.target.metadata.description,
+        visible: true
+      });
+      this.selectedPin = e.target;
+      // console.log(this.selectedPin);
+      // this.selectedPin.setOptions({enableClickedStyle: false});
+      // this.selectedPin.setOptions({enableClickedStyle: true});
+      // this.selectedPin = e.target;
     }
-  }
+    // if the pin that triggered the event is equal to the selected pin then we set everything to null.
+    else {
+      console.log('deselect pin');
+      this.selectedPin = null;
+      e.target.setOptions({
+        color: 'green'
+      });
+      this.infobox.setOptions({
+        location: e.target.getLocation(),
+        title: e.target.metadata.title,
+        description: e.target.metadata.description,
+        visible: false
+      });
+    }
+
+    // Make sure the infobox has metadata to display.
+    // if (e.target.metadata) {
+    //   // Set the infobox options with the metadata of the pushpin.
+    //   infobox.setOptions({
+    //     location: e.target.getLocation(),
+    //     title: e.target.metadata.title,
+    //     description: e.target.metadata.description,
+    //     visible: true
+    //   });
+    // }
+  };
 
   setPushPins(locations) {
     for (let i = 0; i < locations.length; i++) {
@@ -58,6 +121,9 @@ export default class MapView extends Component {
         title: 'Pin ' + i,
         description: 'Discription for pin' + i
       };
+      pin.setOptions({
+        color: 'green'
+      });
       // Add a click event handler to the pushpin.
       Microsoft.Maps.Events.addHandler(pin, 'click', this.pushpinClicked);
       // Add pushpin to the map.
@@ -66,6 +132,13 @@ export default class MapView extends Component {
   }
 
   render() {
-    return <div id="map" style={{ width: '95vw', height: '100vh' }} />;
+    return (
+      <div>
+        <div id="map" style={{ width: '95vw', height: '100vh' }} />
+        <button type="button" onClick={() => console.log(this.selectedPin)}>
+          Get selected Pin
+        </button>
+      </div>
+    );
   }
 }
